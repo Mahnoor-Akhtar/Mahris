@@ -206,7 +206,7 @@ export const Navbar: React.FC = () => {
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="w-11 h-11 lg:w-12 lg:h-12 rounded-full bg-white/[0.04] border border-white/10 hover:border-purple-500/50 hover:bg-purple-500/10 text-white flex flex-col items-center justify-center gap-1.5 transition-all duration-300 hover:shadow-[0_0_15px_#8B5CF6] focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 shrink-0 group"
+              className="w-11 h-11 lg:hidden rounded-full bg-white/[0.04] border border-white/10 hover:border-purple-500/50 hover:bg-purple-500/10 text-white flex flex-col items-center justify-center gap-1.5 transition-all duration-300 hover:shadow-[0_0_15px_#8B5CF6] focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 shrink-0 group"
               aria-expanded={mobileMenuOpen}
               aria-label="Toggle navigation menu"
             >
