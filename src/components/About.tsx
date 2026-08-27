@@ -229,7 +229,7 @@ export const About: React.FC = () => {
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(139,92,246,0.15)_0%,transparent_70%)] opacity-100 mix-blend-screen" />
               {/* Replace with actual image */}
               <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#0A0A0F] to-transparent z-10" />
-              <img src="/images/Haris.jpg" alt="Haris Khan" className="relative z-0 w-full h-full object-cover object-bottom" onError={(e) => { e.currentTarget.src = "https://ui-avatars.com/api/?name=Haris+Khan&background=1e1b4b&color=fff&size=512"; e.currentTarget.className="w-full h-full object-cover opacity-50"; }} />
+              <img src="/images/Haris.jpeg" alt="Haris Khan" className="relative z-0 w-full h-full object-cover object-bottom" onError={(e) => { e.currentTarget.src = "https://ui-avatars.com/api/?name=Haris+Khan&background=1e1b4b&color=fff&size=512"; e.currentTarget.className="w-full h-full object-cover opacity-50"; }} />
             </div>
           </motion.div>
 

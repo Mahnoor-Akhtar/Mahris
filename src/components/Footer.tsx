@@ -361,10 +361,10 @@ export const Footer: React.FC = () => {
                   </div>
                   <div>
                     <a
-                      href="tel:+923315480603"
+                      href="tel:+923147238942"
                       className="text-xs sm:text-[13px] font-medium text-white hover:text-[#A78BFA] transition-colors block"
                     >
-                      +92 331 548 0603
+                      +92 314 7238942
                     </a>
                     <span className="text-[11px] text-zinc-500">
                       Mon – Fri, 10AM – 7PM PKT
