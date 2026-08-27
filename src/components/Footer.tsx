@@ -167,7 +167,7 @@ export const Footer: React.FC = () => {
               {/* Social Icons */}
               <div className="flex items-center gap-2.5 mb-8">
                 <a
-                  href="https://linkedin.com"
+                  href="https://www.linkedin.com/in/mah-noor-83338b39a/"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LinkedIn"
@@ -194,7 +194,7 @@ export const Footer: React.FC = () => {
                   <Dribbble className="w-4 h-4" />
                 </a>
                 <a
-                  href="https://github.com"
+                  href="https://github.com/Mahnoor-Akhtar"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="GitHub"

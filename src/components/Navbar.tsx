@@ -196,7 +196,7 @@ export const Navbar: React.FC = () => {
             {/* Primary Action Button */}
             <a
               href="#contact"
-              className="group relative inline-flex items-center justify-center gap-2.5 px-6 sm:px-7 lg:px-8 py-3 sm:py-3.5 rounded-full text-xs lg:text-[13px] font-semibold tracking-[0.14em] uppercase text-white bg-gradient-to-r from-[#8B5CF6] to-[#7C3AED] shadow-[0_0_20px_rgba(139,92,246,0.45)] hover:shadow-[0_0_30px_rgba(139,92,246,0.7)] transition-all duration-300 hover:-translate-y-0.5 shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400"
+              className="hidden sm:inline-flex group relative items-center justify-center gap-2.5 px-6 sm:px-7 lg:px-8 py-3 sm:py-3.5 rounded-full text-xs lg:text-[13px] font-semibold tracking-[0.14em] uppercase text-white bg-gradient-to-r from-[#8B5CF6] to-[#7C3AED] shadow-[0_0_20px_rgba(139,92,246,0.45)] hover:shadow-[0_0_30px_rgba(139,92,246,0.7)] transition-all duration-300 hover:-translate-y-0.5 shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400"
             >
               <span>START A PROJECT</span>
               <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
