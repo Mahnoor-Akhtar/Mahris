@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  
+  html {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #050507;
+    color: #ffffff;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    min-height: 100vh;
+    min-height: 100svh;
+    overflow-x: hidden;
+    background: #050507;
+  }
+}
+
+@layer utilities {
+  .text-gradient-purple {
+    background: linear-gradient(135deg, #A78BFA 0%, #8B5CF6 50%, #7C3AED 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .purple-glow-sm {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.35);
+  }
+
+  .purple-glow-md {
+    box-shadow: 0 0 35px rgba(139, 92, 246, 0.45);
+  }
+
+  .purple-glow-lg {
+    box-shadow: 0 0 60px rgba(139, 92, 246, 0.25);
+  }
+}
+
+/* Custom scroll indicator animation */
+@keyframes verticalDrop {
+  0% {
+    top: 0%;
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+.animate-vertical-drop {
+  animation: verticalDrop 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
