@@ -104,6 +104,21 @@ export const CTA: React.FC = () => {
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // Auto-select service when triggered from Services section click
+  useEffect(() => {
+    const handleServiceSelection = (e: Event) => {
+      const customEvt = e as CustomEvent<string>;
+      if (customEvt.detail) {
+        setSelectedService(customEvt.detail);
+        setErrors((prev) => ({ ...prev, service: '' }));
+      }
+    };
+    window.addEventListener('mahris:select-service', handleServiceSelection);
+    return () => {
+      window.removeEventListener('mahris:select-service', handleServiceSelection);
+    };
+  }, []);
+
   // Close custom dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {

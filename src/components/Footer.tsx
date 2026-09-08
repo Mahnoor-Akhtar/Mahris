@@ -136,11 +136,11 @@ export const Footer: React.FC = () => {
           2. MAIN MULTI-COLUMN FOOTER CONTAINER
           =============================================================
         */}
-        <div className="relative w-full rounded-3xl bg-[#07070B]/95 border border-white/[0.08] p-8 sm:p-12 lg:p-14 shadow-[0_30px_90px_rgba(0,0,0,0.9)]">
+        <div className="relative w-full rounded-3xl bg-[#07070B]/95 border border-white/[0.08] p-8 sm:p-12 lg:p-14 lg:pr-16 xl:pr-20 shadow-[0_30px_90px_rgba(0,0,0,0.9)]">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
             
-            {/* ================= COLUMN 1: BRAND & NEWSLETTER (lg:col-span-4) ================= */}
-            <div className="lg:col-span-4 flex flex-col items-start pr-0 lg:pr-6">
+            {/* ================= COLUMN 1: BRAND & NEWSLETTER (lg:col-span-3) ================= */}
+            <div className="lg:col-span-3 flex flex-col items-start pr-0 lg:pr-4">
               {/* Brand Header */}
               <div className="flex items-center gap-3.5 mb-4">
                 <img
@@ -313,8 +313,8 @@ export const Footer: React.FC = () => {
               </ul>
             </div>
 
-            {/* ================= COLUMN 5: GET IN TOUCH (lg:col-span-2) ================= */}
-            <div className="lg:col-span-2 flex flex-col items-start">
+            {/* ================= COLUMN 5: GET IN TOUCH (lg:col-span-3) ================= */}
+            <div className="lg:col-span-3 flex flex-col items-start pr-2 sm:pr-4 lg:pr-6">
               <h4 className="text-xs font-bold tracking-[0.16em] text-white uppercase mb-2">
                 GET IN TOUCH
               </h4>

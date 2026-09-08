@@ -184,14 +184,30 @@ export const Services: React.FC = () => {
     };
   }, [isDesktop]);
 
-  // Handle service click on desktop: activate & scroll smoothly to center
+  // Handle service click: activate, auto-select service in form, and scroll smoothly to #contact form section
   const handleServiceSelect = (index: number) => {
     setActiveIndex(index);
-    if (isDesktop && itemRefs.current[index]) {
-      itemRefs.current[index]?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-      });
+
+    const serviceTitle = services[index]?.title;
+    const serviceToFormMap: { [key: string]: string } = {
+      'UGC ADS': 'Branding & Graphic Design',
+      'AI CARTOON ADS': 'Branding & Graphic Design',
+      'WEBSITES': 'Website Development',
+      'MOBILE APP': 'Mobile App Development',
+      'AUTOMATION': 'Custom Software Solution',
+      'SOFTWARES': 'Web Application Development',
+      'CUSTOM SOLUTIONS': 'Custom Software Solution',
+    };
+
+    if (serviceTitle && serviceToFormMap[serviceTitle]) {
+      window.dispatchEvent(
+        new CustomEvent('mahris:select-service', { detail: serviceToFormMap[serviceTitle] })
+      );
+    }
+
+    const contactElem = document.getElementById('contact');
+    if (contactElem) {
+      contactElem.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -448,23 +464,32 @@ export const Services: React.FC = () => {
           </div>
 
           {/* Services List */}
-          <div className="flex flex-col gap-10">
-            {services.map((item) => (
+          <div className="flex flex-col gap-6">
+            {services.map((item, idx) => (
               <div
                 key={`mobile-${item.id}`}
-                className="flex flex-col items-start text-left w-full border-t border-white/[0.06] pt-8 first:border-t-0 first:pt-0"
+                onClick={() => handleServiceSelect(idx)}
+                className="group flex flex-col items-start text-left w-full border-t border-white/[0.06] pt-6 first:border-t-0 first:pt-0 cursor-pointer p-4 rounded-2xl hover:bg-white/[0.03] transition-all duration-300"
               >
-                <div className="flex items-center gap-3 mb-2.5">
-                  <span className="font-mono text-xs sm:text-sm font-bold tracking-wider text-[#A78BFA] bg-purple-500/10 px-2.5 py-0.5 rounded border border-purple-500/20">
-                    {item.number}
-                  </span>
-                  <h3 className="text-xl sm:text-2xl font-bold tracking-[-0.02em] text-white uppercase">
-                    {item.title}
-                  </h3>
+                <div className="flex items-center justify-between w-full mb-2.5">
+                  <div className="flex items-center gap-3">
+                    <span className="font-mono text-xs sm:text-sm font-bold tracking-wider text-[#A78BFA] bg-purple-500/10 px-2.5 py-0.5 rounded border border-purple-500/20">
+                      {item.number}
+                    </span>
+                    <h3 className="text-xl sm:text-2xl font-bold tracking-[-0.02em] text-white uppercase group-hover:text-[#A78BFA] transition-colors">
+                      {item.title}
+                    </h3>
+                  </div>
+                  <div className="w-8 h-8 rounded-full bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-[#A78BFA] group-hover:translate-x-1 transition-transform">
+                    <ArrowRight className="w-4 h-4" />
+                  </div>
                 </div>
-                <p className="text-sm sm:text-base leading-relaxed text-zinc-300 max-w-xl">
+                <p className="text-sm sm:text-base leading-relaxed text-zinc-300 max-w-xl mb-3">
                   {item.description}
                 </p>
+                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#A78BFA] group-hover:text-purple-300 transition-colors">
+                  Request Service <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </span>
               </div>
             ))}
           </div>
