@@ -78,7 +78,7 @@ export const About: React.FC = () => {
   return (
     <section
       id="about"
-      className="relative w-full min-h-screen flex flex-col items-center overflow-hidden bg-[#050507] py-24 sm:py-32 select-none border-t border-white/[0.04]"
+      className="relative w-full min-h-screen flex flex-col items-center overflow-hidden bg-[#050507] py-14 sm:py-18 lg:py-20 select-none border-t border-white/[0.04]"
       aria-label="Our Founders"
     >
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">

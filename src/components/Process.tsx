@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useReducedMotion, useInView } from 'framer-motion';
 import {
-  ArrowUpRight,
   Search,
   Target,
   PenTool,
@@ -108,7 +107,7 @@ export const Process: React.FC = () => {
     <section
       id="process"
       ref={sectionRef}
-      className="relative w-full bg-[#050507] py-28 sm:py-36 lg:py-44 select-none border-t border-white/[0.04] overflow-hidden"
+      className="relative w-full bg-[#050507] py-14 sm:py-18 lg:py-20 select-none border-t border-white/[0.04] overflow-hidden"
       aria-label="MaHris Process"
     >
       {/* Background ambient lighting */}
@@ -119,80 +118,39 @@ export const Process: React.FC = () => {
       <div className="relative z-10 w-full max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-12">
         {/* 
           -------------------------------------------------------------
-          1. HEADER AREA
-          Left: Eyebrow + Headline + Purple Accent Line
-          Right: Supporting Text + Outlined CTA
+          1. CENTERED HEADER AREA
           -------------------------------------------------------------
         */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end mb-16 lg:mb-20">
-          {/* Left Column: Eyebrow + Large Headline */}
-          <div className="lg:col-span-7 flex flex-col items-start text-left">
-            {/* Eyebrow */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={isSectionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="inline-flex items-center gap-2.5 mb-4"
-            >
-              <span
-                className="w-2 h-2 rounded-full bg-[#8B5CF6] shadow-[0_0_10px_#8B5CF6]"
-                aria-hidden="true"
-              />
-              <span className="text-xs sm:text-[13px] font-semibold tracking-[0.22em] text-[#A78BFA] uppercase">
-                OUR PROCESS
-              </span>
-            </motion.div>
-
-            {/* Main Headline */}
-            <motion.h2
-              initial={{ opacity: 0, y: 18 }}
-              animate={isSectionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
-              transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-[2.75rem] sm:text-5xl lg:text-[3.75rem] xl:text-[4.25rem] font-medium tracking-[-0.045em] text-white uppercase leading-[0.98] mb-5"
-            >
-              A CLEAR PROCESS.
-              <br />
-              <span className="text-[#8B5CF6] drop-shadow-[0_0_30px_rgba(139,92,246,0.4)]">
-                EXCEPTIONAL
-              </span>{' '}
-              RESULTS.
-            </motion.h2>
-
-            {/* Short Purple Accent Line */}
-            <motion.div
-              initial={{ opacity: 0, scaleX: 0 }}
-              animate={isSectionInView ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: 0 }}
-              transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="w-14 h-[2px] bg-[#8B5CF6] shadow-[0_0_10px_#8B5CF6] rounded-full origin-left"
+        <div className="max-w-3xl mx-auto text-center mb-12 lg:mb-16">
+          {/* Eyebrow */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={isSectionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="inline-flex items-center justify-center gap-2.5 mb-4"
+          >
+            <span
+              className="w-2 h-2 rounded-full bg-[#8B5CF6] shadow-[0_0_10px_#8B5CF6]"
               aria-hidden="true"
             />
-          </div>
+            <span className="text-xs sm:text-[13px] font-semibold tracking-[0.22em] text-[#A78BFA] uppercase">
+              OUR PROCESS
+            </span>
+          </motion.div>
 
-          {/* Right Column: Paragraph + CTA */}
-          <div className="lg:col-span-5 flex flex-col items-start lg:items-end justify-between text-left lg:text-right pb-1">
-            <motion.p
-              initial={{ opacity: 0, y: 18 }}
-              animate={isSectionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
-              transition={{ duration: 0.7, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              className="text-sm sm:text-base md:text-[16px] leading-relaxed text-zinc-300/90 max-w-md mb-6 font-normal"
-            >
-              We follow a proven process that keeps projects focused, transparent and efficient — from the first idea to long-term success.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              animate={isSectionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
-              transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <a
-                href="#contact"
-                className="group inline-flex items-center gap-2.5 px-6 py-3 rounded-full text-xs font-semibold tracking-[0.14em] uppercase text-white bg-purple-500/5 hover:bg-purple-500/15 border border-purple-500/40 hover:border-purple-400 shadow-[0_0_20px_rgba(139,92,246,0.15)] hover:shadow-[0_0_30px_rgba(139,92,246,0.35)] transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400"
-              >
-                <span>START A PROJECT</span>
-                <ArrowUpRight className="w-3.5 h-3.5 text-purple-300 group-hover:text-white transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </a>
-            </motion.div>
-          </div>
+          {/* Main Headline */}
+          <motion.h2
+            initial={{ opacity: 0, y: 18 }}
+            animate={isSectionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-[2.75rem] sm:text-5xl lg:text-[3.75rem] xl:text-[4.25rem] font-medium tracking-[-0.045em] text-white uppercase leading-[0.98] mb-5"
+          >
+            A CLEAR PROCESS.{' '}
+            <span className="text-[#8B5CF6] drop-shadow-[0_0_30px_rgba(139,92,246,0.4)]">
+              EXCEPTIONAL
+            </span>{' '}
+            RESULTS.
+          </motion.h2>
         </div>
 
         {/* 

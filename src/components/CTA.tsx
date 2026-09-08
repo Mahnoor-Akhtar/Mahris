@@ -59,7 +59,7 @@ export const CTA: React.FC = () => {
     <section
       id="contact"
       ref={sectionRef}
-      className="relative w-full bg-[#050507] py-28 sm:py-36 lg:py-44 select-none border-t border-white/[0.04] overflow-hidden"
+      className="relative w-full bg-[#050507] py-14 sm:py-18 lg:py-20 select-none border-t border-white/[0.04] overflow-hidden"
       aria-label="Contact MaHris"
     >
       {/* 
@@ -182,7 +182,7 @@ export const CTA: React.FC = () => {
 
       {/* Atmospheric dark gradient overlays to ensure left text readability */}
       <div
-        className="absolute inset-0 bg-gradient-to-r from-[#050507] via-[#050507]/80 to-transparent pointer-events-none z-[3]"
+        className="absolute inset-0 bg-gradient-to-r from-[#050507] via-[#050507]/85 to-transparent pointer-events-none z-[3]"
         aria-hidden="true"
       />
       <div
@@ -213,7 +213,7 @@ export const CTA: React.FC = () => {
                 className="w-2 h-2 rounded-full bg-[#8B5CF6] shadow-[0_0_10px_#8B5CF6]"
                 aria-hidden="true"
               />
-              <span className="text-xs sm:text-[13px] font-semibold tracking-[0.18em] text-[#A78BFA] uppercase">
+              <span className="text-xs sm:text-[13px] font-semibold tracking-[0.2em] text-[#A78BFA] uppercase">
                 LET&apos;S BUILD SOMETHING EXCEPTIONAL
               </span>
             </motion.div>
@@ -223,7 +223,7 @@ export const CTA: React.FC = () => {
               initial={{ opacity: 0, y: 18 }}
               animate={isSectionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
               transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-[2.75rem] sm:text-5xl lg:text-[3.75rem] xl:text-[4.25rem] font-medium tracking-[-0.045em] text-white uppercase leading-[0.98] mb-6"
+              className="text-[2.5rem] sm:text-5xl lg:text-[3.75rem] xl:text-[4.25rem] font-bold tracking-[-0.04em] text-white uppercase leading-[1.05] mb-5"
             >
               READY TO BRING
               <br />
@@ -233,21 +233,12 @@ export const CTA: React.FC = () => {
               </span>
             </motion.h2>
 
-            {/* Thin Purple Decorative Line */}
-            <motion.div
-              initial={{ opacity: 0, scaleX: 0 }}
-              animate={isSectionInView ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: 0 }}
-              transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="w-14 h-[2px] bg-[#8B5CF6] shadow-[0_0_10px_#8B5CF6] rounded-full origin-left mb-6"
-              aria-hidden="true"
-            />
-
             {/* Supporting Paragraph */}
             <motion.p
               initial={{ opacity: 0, y: 18 }}
               animate={isSectionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
-              transition={{ duration: 0.7, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              className="text-base sm:text-[17px] leading-relaxed text-zinc-300/90 max-w-lg mb-8 font-normal"
+              transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="text-sm sm:text-base md:text-[16px] leading-relaxed text-zinc-300/90 max-w-lg mb-8 font-normal"
             >
               We partner with ambitious businesses to create digital solutions that drive real impact and lasting growth. Let&apos;s build something remarkable together.
             </motion.p>
@@ -256,13 +247,13 @@ export const CTA: React.FC = () => {
             <motion.div
               initial={{ opacity: 0, y: 18 }}
               animate={isSectionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
-              transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.7, delay: 0.28, ease: [0.16, 1, 0.3, 1] }}
               className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto mb-8"
             >
               {/* Primary CTA Button */}
               <a
                 href="mailto:contact@mahris.com"
-                className="group relative inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl text-xs sm:text-[13px] font-semibold tracking-[0.14em] uppercase text-white bg-[#8B5CF6] hover:bg-[#7C3AED] shadow-[0_0_25px_rgba(139,92,246,0.35)] hover:shadow-[0_0_35px_rgba(139,92,246,0.55)] transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purple-400"
+                className="group relative inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full text-xs sm:text-[13px] font-semibold tracking-[0.14em] uppercase text-white bg-[#8B5CF6] hover:bg-[#7C3AED] shadow-[0_0_25px_rgba(139,92,246,0.35)] hover:shadow-[0_0_35px_rgba(139,92,246,0.55)] transition-all duration-300 hover:-translate-y-0.5"
               >
                 <span>START A PROJECT</span>
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -271,7 +262,7 @@ export const CTA: React.FC = () => {
               {/* Secondary CTA Button */}
               <a
                 href="mailto:contact@mahris.com?subject=Consultation%20Request"
-                className="group inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-xl text-xs sm:text-[13px] font-semibold tracking-[0.14em] uppercase text-zinc-200 hover:text-white bg-white/[0.03] hover:bg-white/[0.07] border border-purple-500/40 hover:border-purple-400 shadow-[0_0_15px_rgba(139,92,246,0.1)] hover:shadow-[0_0_25px_rgba(139,92,246,0.25)] transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400"
+                className="group inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-full text-xs sm:text-[13px] font-semibold tracking-[0.14em] uppercase text-zinc-200 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/15 hover:border-purple-400/60 shadow-[0_0_15px_rgba(0,0,0,0.4)] transition-all duration-300 hover:-translate-y-0.5"
               >
                 <Calendar className="w-4 h-4 text-purple-300 group-hover:text-white transition-colors" />
                 <span>BOOK A CONSULTATION</span>
@@ -283,7 +274,7 @@ export const CTA: React.FC = () => {
               initial={{ opacity: 0, y: 16 }}
               animate={isSectionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
               transition={{ duration: 0.6, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="flex items-center gap-3 pt-2"
+              className="flex items-center gap-3 pt-1"
             >
               {/* Avatar Stack */}
               <div className="flex items-center">

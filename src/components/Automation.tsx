@@ -110,7 +110,7 @@ export const Automation: React.FC = () => {
     <section
       id="automation"
       ref={sectionRef}
-      className="relative w-full bg-[#050507] py-28 sm:py-36 lg:py-44 select-none border-t border-white/[0.04] overflow-hidden"
+      className="relative w-full bg-[#050507] py-14 sm:py-18 lg:py-20 select-none border-t border-white/[0.04] overflow-hidden"
       aria-label="MaHris AI Automation"
     >
       {/* Background atmospheric lighting */}
@@ -121,60 +121,61 @@ export const Automation: React.FC = () => {
       <div className="relative z-10 w-full max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-12">
         {/* 
           -------------------------------------------------------------
+          CENTERED SECTION HEADER
+          -------------------------------------------------------------
+        */}
+        <div className="max-w-3xl mx-auto text-center mb-12 lg:mb-16">
+          {/* Eyebrow */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={isSectionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="inline-flex items-center justify-center gap-2.5 mb-4"
+          >
+            <span
+              className="w-2 h-2 rounded-full bg-[#8B5CF6] shadow-[0_0_10px_#8B5CF6]"
+              aria-hidden="true"
+            />
+            <span className="text-xs sm:text-[13px] font-semibold tracking-[0.22em] text-[#A78BFA] uppercase">
+              AI AUTOMATION
+            </span>
+          </motion.div>
+
+          {/* Main Editorial Headline */}
+          <motion.h2
+            initial={{ opacity: 0, y: 18 }}
+            animate={isSectionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-[2.5rem] sm:text-5xl lg:text-[3.75rem] xl:text-[4.25rem] font-medium tracking-[-0.045em] text-white uppercase leading-[1.04] mb-5"
+          >
+            AUTOMATE THE WORK THAT{' '}
+            <span className="text-[#8B5CF6] drop-shadow-[0_0_35px_rgba(139,92,246,0.4)]">
+              DRIVES RESULTS.
+            </span>
+          </motion.h2>
+
+          {/* Supporting Text */}
+          <motion.p
+            initial={{ opacity: 0, y: 18 }}
+            animate={isSectionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
+            transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="text-sm sm:text-base md:text-[16px] leading-relaxed text-zinc-300/90 max-w-xl mx-auto font-normal"
+          >
+            We build intelligent automation systems that connect your tools, reduce repetitive tasks and help your business operate at full speed.
+          </motion.p>
+        </div>
+
+        {/* 
+          -------------------------------------------------------------
           MAIN 40 / 60 COMPOSITION
-          LEFT ~40%: Editorial Headline, Supporting Text, Benefits, CTA
+          LEFT ~40%: Benefits & CTA
           RIGHT ~60%: HUGE IMMERSIVE LIVE AUTOMATION WORKFLOW CANVAS
           -------------------------------------------------------------
         */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-14 items-center min-h-[720px] lg:min-h-[820px] xl:min-h-[880px]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-14 items-center">
           
-          {/* ================= LEFT COLUMN: Content & Benefits (~40%) ================= */}
+          {/* ================= LEFT COLUMN: Benefits & CTA (~40%) ================= */}
           <div className="lg:col-span-5 xl:col-span-5 flex flex-col items-start text-left z-20 shrink-0">
-            {/* Eyebrow */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={isSectionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="inline-flex items-center gap-2.5 mb-4"
-            >
-              <span
-                className="w-2 h-2 rounded-full bg-[#8B5CF6] shadow-[0_0_10px_#8B5CF6]"
-                aria-hidden="true"
-              />
-              <span className="text-xs sm:text-[13px] font-semibold tracking-[0.22em] text-[#A78BFA] uppercase">
-                AI AUTOMATION
-              </span>
-            </motion.div>
-
-            {/* Main Editorial Headline */}
-            <motion.h2
-              initial={{ opacity: 0, y: 18 }}
-              animate={isSectionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
-              transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-[2.75rem] sm:text-5xl lg:text-[3.75rem] xl:text-[4.25rem] font-medium tracking-[-0.045em] text-white uppercase leading-[0.98] mb-6"
-            >
-              AUTOMATE
-              <br />
-              THE WORK
-              <br />
-              THAT
-              <br />
-              <span className="text-[#8B5CF6] drop-shadow-[0_0_35px_rgba(139,92,246,0.4)]">
-                DRIVES
-                <br />
-                RESULTS.
-              </span>
-            </motion.h2>
-
-            {/* Supporting Text */}
-            <motion.p
-              initial={{ opacity: 0, y: 18 }}
-              animate={isSectionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
-              transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="text-sm sm:text-base md:text-[16px] leading-relaxed text-zinc-300/90 max-w-lg mb-10 font-normal"
-            >
-              We build intelligent automation systems that connect your tools, reduce repetitive tasks and help your business operate at full speed.
-            </motion.p>
 
             {/* Three Structured Benefits */}
             <div className="w-full flex flex-col gap-4 mb-10">
@@ -238,15 +239,15 @@ export const Automation: React.FC = () => {
             ref={visualRef}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className="lg:col-span-7 xl:col-span-7 relative flex items-center justify-end py-4 z-10 lg:-mr-16 xl:-mr-28 2xl:-mr-40"
+            className="lg:col-span-7 xl:col-span-7 relative flex items-center justify-center py-4 z-10"
           >
             {/* Ambient Purple Depth Glow behind System - Centered on AI Processing core */}
             <div
-              className="absolute top-1/2 right-[15%] -translate-y-1/2 w-[900px] h-[650px] bg-purple-600/[0.20] rounded-full blur-[170px] pointer-events-none -z-10"
+              className="absolute top-1/2 right-[15%] -translate-y-1/2 w-[750px] h-[550px] bg-purple-600/[0.18] rounded-full blur-[160px] pointer-events-none -z-10"
               aria-hidden="true"
             />
 
-            {/* Live Interactive Visualization Container - Scaled 122-128% for Dominant System Presence */}
+            {/* Live Interactive Visualization Container */}
             <motion.div
               animate={{
                 x: isDesktop && !shouldReduceMotion ? mouseOffset.x : 0,
@@ -258,7 +259,7 @@ export const Automation: React.FC = () => {
                 stiffness: 120,
                 mass: 0.5,
               }}
-              className="relative w-full lg:w-[122%] xl:w-[128%] max-w-none origin-left aspect-[1535/1024] rounded-2xl overflow-hidden bg-[#07070B] border border-white/[0.10] shadow-[0_40px_140px_rgba(0,0,0,0.95),0_0_90px_rgba(139,92,246,0.18)]"
+              className="relative w-full aspect-[1535/1024] rounded-2xl overflow-hidden bg-[#07070B] border border-white/[0.10] shadow-[0_30px_90px_rgba(0,0,0,0.9),0_0_60px_rgba(139,92,246,0.15)]"
             >
               {/* Base Artwork Layer (public/images/automation-system.png) */}
               <img

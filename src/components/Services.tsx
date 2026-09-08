@@ -1,77 +1,140 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { motion, AnimatePresence, useReducedMotion, useInView } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
+import { ArrowRight, Volume2, VolumeX } from 'lucide-react';
 
 interface ServiceItem {
   id: string;
   number: string;
   title: string;
   description: string;
-  image: string;
 }
 
 const services: ServiceItem[] = [
   {
-    id: 'websites',
+    id: 'ugc-ads',
     number: '01',
+    title: 'UGC ADS',
+    description:
+      'High-converting user-generated content ads tailored to captivate audiences and drive sales.',
+  },
+  {
+    id: 'ai-cartoon-ads',
+    number: '02',
+    title: 'AI CARTOON ADS',
+    description:
+      'Engaging animated & AI-generated cartoon ad campaigns designed for viral brand reach and impact.',
+  },
+  {
+    id: 'websites',
+    number: '03',
     title: 'WEBSITES',
     description:
       'High-performance websites designed to represent your brand and turn visitors into customers.',
-    image: '/images/service-websites.png',
   },
   {
-    id: 'applications',
-    number: '02',
-    title: 'APPLICATIONS',
-    description:
-      'Web and mobile applications built around real users, real problems and real growth.',
-    image: '/images/service-applications.png',
-  },
-  {
-    id: 'ai-automation',
-    number: '03',
-    title: 'AI AUTOMATION',
-    description:
-      'Intelligent workflows that automate repetitive tasks and connect your tools.',
-    image: '/images/service-ai-automation.png',
-  },
-  {
-    id: 'uiux-design',
+    id: 'mobile-app',
     number: '04',
-    title: 'UI/UX DESIGN',
+    title: 'MOBILE APP',
     description:
-      'User experiences and interfaces that are clear, intuitive and visually memorable.',
-    image: '/images/service-uiux.png',
+      'Native and cross-platform mobile applications built around real users, real problems and growth.',
+  },
+  {
+    id: 'automation',
+    number: '05',
+    title: 'AUTOMATION',
+    description:
+      'Intelligent AI workflows that automate repetitive tasks, optimize operations, and scale faster.',
+  },
+  {
+    id: 'softwares',
+    number: '06',
+    title: 'SOFTWARES',
+    description:
+      'Custom enterprise software systems, robust APIs, and SaaS platforms engineered for high performance.',
   },
   {
     id: 'custom-solutions',
-    number: '05',
+    number: '07',
     title: 'CUSTOM SOLUTIONS',
     description:
-      'Tailored digital systems and platforms built around your unique business needs.',
-    image: '/images/service-custom-solutions.png',
+      'Tailored digital systems and custom technology solutions built around your unique business needs.',
   },
 ];
 
 export const Services: React.FC = () => {
-  const shouldReduceMotion = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
   const showcaseRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [isDesktop, setIsDesktop] = useState(false);
-  const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
+  const [isMuted, setIsMuted] = useState(false);
+  const [showSoundPrompt, setShowSoundPrompt] = useState(false);
 
-  const isSectionInView = useInView(sectionRef, { once: true, margin: '0px 0px -60px 0px' });
+  // Dynamic inView check (plays video when Services is in viewport, pauses when scrolled away up or down)
+  const isSectionInView = useInView(sectionRef, { amount: 0.15 });
 
-  // Preload all 5 service images on mount for instant, flicker-free switching
+  // Preload video for instant, smooth, zero-stutter playback
   useEffect(() => {
-    services.forEach((s) => {
-      const img = new Image();
-      img.src = s.image;
-    });
-  }, []);
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (isSectionInView) {
+      video.muted = isMuted;
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            setShowSoundPrompt(false);
+          })
+          .catch((error) => {
+            console.log('Unmuted autoplay prevented by browser policy, resorting to muted autoplay:', error);
+            video.muted = true;
+            setIsMuted(true);
+            setShowSoundPrompt(true);
+            video.play().catch(() => {});
+          });
+      }
+    } else {
+      video.pause();
+    }
+  }, [isSectionInView, isMuted]);
+
+  // First user interaction listener to enable audio if browser blocked initial unmuted play
+  useEffect(() => {
+    const handleUserInteraction = () => {
+      if (videoRef.current && isSectionInView) {
+        videoRef.current.muted = false;
+        videoRef.current.play().then(() => {
+          setIsMuted(false);
+          setShowSoundPrompt(false);
+        }).catch(() => {});
+      }
+    };
+
+    window.addEventListener('click', handleUserInteraction, { once: true });
+    window.addEventListener('touchstart', handleUserInteraction, { once: true });
+
+    return () => {
+      window.removeEventListener('click', handleUserInteraction);
+      window.removeEventListener('touchstart', handleUserInteraction);
+    };
+  }, [isSectionInView]);
+
+  const toggleSound = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    const video = videoRef.current;
+    if (video) {
+      const nextMuted = !video.muted;
+      video.muted = nextMuted;
+      setIsMuted(nextMuted);
+      if (!nextMuted) {
+        setShowSoundPrompt(false);
+        video.play().catch(() => {});
+      }
+    }
+  };
 
   // Detect desktop screen and hover capabilities
   useEffect(() => {
@@ -90,55 +153,36 @@ export const Services: React.FC = () => {
   useEffect(() => {
     if (!isDesktop) return;
 
+    let rafId: number;
     const handleScroll = () => {
-      const triggerY = window.innerHeight * 0.45;
-      let closestIndex = 0;
-      let minDistance = Infinity;
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        const triggerY = window.innerHeight * 0.45;
+        let closestIndex = 0;
+        let minDistance = Infinity;
 
-      itemRefs.current.forEach((el, index) => {
-        if (!el) return;
-        const rect = el.getBoundingClientRect();
-        const elementCenter = rect.top + rect.height / 2;
-        const distance = Math.abs(elementCenter - triggerY);
+        itemRefs.current.forEach((el, index) => {
+          if (!el) return;
+          const rect = el.getBoundingClientRect();
+          const elementCenter = rect.top + rect.height / 2;
+          const distance = Math.abs(elementCenter - triggerY);
 
-        if (distance < minDistance) {
-          minDistance = distance;
-          closestIndex = index;
-        }
+          if (distance < minDistance) {
+            minDistance = distance;
+            closestIndex = index;
+          }
+        });
+
+        setActiveIndex((prev) => (prev !== closestIndex ? closestIndex : prev));
       });
-
-      setActiveIndex((prev) => (prev !== closestIndex ? closestIndex : prev));
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      cancelAnimationFrame(rafId);
+    };
   }, [isDesktop]);
-
-  // Subtle mouse depth response on active visual (Max movement: 3-5px)
-  const handleMouseMove = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      if (!isDesktop || shouldReduceMotion) return;
-
-      const rect = showcaseRef.current?.getBoundingClientRect();
-      if (!rect) return;
-
-      const clientX = e.clientX - rect.left;
-      const clientY = e.clientY - rect.top;
-
-      const normalizedX = (clientX / rect.width - 0.5) * 2;
-      const normalizedY = (clientY / rect.height - 0.5) * 2;
-
-      setMouseOffset({
-        x: normalizedX * 4,
-        y: normalizedY * 4,
-      });
-    },
-    [isDesktop, shouldReduceMotion]
-  );
-
-  const handleMouseLeave = useCallback(() => {
-    setMouseOffset({ x: 0, y: 0 });
-  }, []);
 
   // Handle service click on desktop: activate & scroll smoothly to center
   const handleServiceSelect = (index: number) => {
@@ -151,13 +195,11 @@ export const Services: React.FC = () => {
     }
   };
 
-  const activeService = services[activeIndex];
-
   return (
     <section
       id="services"
       ref={sectionRef}
-      className="relative w-full bg-[#050507] py-28 sm:py-36 lg:py-40 select-none border-t border-white/[0.04] overflow-hidden"
+      className="relative w-full bg-[#050507] py-14 sm:py-18 lg:py-20 select-none border-t border-white/[0.04] overflow-hidden"
       aria-label="MaHris Services"
     >
       {/* Background ambient depth glow */}
@@ -171,13 +213,13 @@ export const Services: React.FC = () => {
           SECTION HEADER
           -------------------------------------------------------------
         */}
-        <div className="max-w-2xl mb-16 sm:mb-20 lg:mb-24">
+        <div className="max-w-2xl mx-auto text-center mb-16 sm:mb-20 lg:mb-24">
           {/* Eyebrow */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={isSectionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="inline-flex items-center gap-2.5 mb-4"
+            className="inline-flex items-center justify-center gap-2.5 mb-4"
           >
             <span
               className="w-2 h-2 rounded-full bg-[#8B5CF6] shadow-[0_0_10px_#8B5CF6]"
@@ -203,7 +245,7 @@ export const Services: React.FC = () => {
             initial={{ opacity: 0, y: 18 }}
             animate={isSectionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
             transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-sm sm:text-base md:text-[16px] leading-relaxed text-zinc-300/90 max-w-xl font-normal"
+            className="text-sm sm:text-base md:text-[16px] leading-relaxed text-zinc-300/90 max-w-xl mx-auto font-normal"
           >
             End-to-end digital solutions that help businesses grow, operate smarter and scale faster.
           </motion.p>
@@ -212,13 +254,13 @@ export const Services: React.FC = () => {
         {/* 
           -------------------------------------------------------------
           DESKTOP LAYOUT
-          LEFT: Refined editorial service list (35-38%)
-          RIGHT: HUGE, DOMINANT DIGITAL PRODUCT VISUAL (62-65%)
+          LEFT: Refined editorial service list (50%)
+          RIGHT: SINGLE 9:16 PORTRAIT AUTOPLAY VIDEO SHOWCASE WITH VOICE (50%)
           -------------------------------------------------------------
         */}
-        <div className="hidden lg:flex items-center justify-between gap-8 xl:gap-12 relative min-h-[75vh]">
+        <div className="hidden lg:flex items-center justify-between gap-10 xl:gap-16 relative min-h-[75vh]">
           {/* Left Column: Interactive Service List */}
-          <div className="w-[36%] xl:w-[35%] flex flex-col gap-5 py-4 z-20 shrink-0">
+          <div className="w-[50%] xl:w-[48%] flex flex-col gap-5 py-4 z-20 shrink-0">
             {services.map((item, idx) => {
               const isActive = activeIndex === idx;
 
@@ -297,102 +339,73 @@ export const Services: React.FC = () => {
           </div>
 
           {/* 
-            Right Column: HUGE DOMINANT PRODUCT VISUAL STAGE
+            Right Column: 9:16 PORTRAIT VIDEO STAGE
             - Sticky while scrolling
-            - Oversized relative to container (118-125% width)
-            - Bleeds naturally towards the right edge of viewport
-            - Smooth cubic-bezier transitions
+            - Displays in exact 9:16 portrait ratio without cropping
           */}
-          <div className="w-[64%] xl:w-[65%] sticky top-16 h-[calc(100vh-4rem)] min-h-[700px] flex flex-col justify-center z-10 -mr-16 xl:-mr-28 2xl:-mr-40 pointer-events-none">
+          <div className="w-[50%] xl:w-[52%] sticky top-16 h-[calc(100vh-4rem)] min-h-[650px] flex flex-col items-center justify-center z-10 pointer-events-none">
             <div
               ref={showcaseRef}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
-              className="relative w-full h-full flex flex-col justify-center items-end pointer-events-auto"
+              className="relative w-full flex flex-col items-center justify-center pointer-events-auto"
             >
-              {/* Technical Metadata Row */}
-              <div className="flex items-center justify-between w-full max-w-[90%] mb-4 px-2">
-                <div className="flex items-center gap-3">
-                  <span className="font-mono text-xs font-bold tracking-widest text-[#A78BFA] bg-purple-500/10 px-2.5 py-0.5 rounded border border-purple-500/20">
-                    {activeService.number} / 05
-                  </span>
-                  <span className="text-[11px] font-semibold tracking-[0.2em] text-zinc-400 uppercase">
-                    ACTIVE SERVICE
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 text-xs font-bold tracking-[0.14em] text-white uppercase">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#8B5CF6] shadow-[0_0_8px_#8B5CF6]" />
-                  <span>{activeService.title}</span>
-                </div>
-              </div>
-
               {/* Atmospheric Purple Radial Light BEHIND visual */}
               <div
-                className="absolute top-1/2 right-[10%] -translate-y-1/2 w-[750px] h-[550px] rounded-full pointer-events-none -z-10"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[650px] rounded-full pointer-events-none -z-10"
                 style={{
-                  background: 'radial-gradient(circle, rgba(124, 58, 237, 0.18), transparent 65%)',
+                  background: 'radial-gradient(circle, rgba(124, 58, 237, 0.2), transparent 65%)',
                 }}
                 aria-hidden="true"
               />
 
-              {/* 
-                HUGE PRODUCT VISUAL STAGE
-                - Scaled 118%-125% to naturally extend towards the right edge
-                - Subtle floating elevation (0 -> -5px -> 0, 7s)
-                - Micro cursor parallax response (3-5px)
-                - Cinematic image transitions
-              */}
-              <motion.div
-                animate={{
-                  y: isDesktop && !shouldReduceMotion ? [0, -6, 0] : 0,
-                }}
-                transition={{
-                  duration: 7,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-                className="relative w-full flex items-center justify-end"
-              >
-                <motion.div
-                  animate={{
-                    x: isDesktop && !shouldReduceMotion ? mouseOffset.x : 0,
-                    y: isDesktop && !shouldReduceMotion ? mouseOffset.y : 0,
-                  }}
-                  transition={{
-                    type: 'spring',
-                    damping: 30,
-                    stiffness: 120,
-                    mass: 0.5,
-                  }}
-                  className="relative w-[118%] xl:w-[125%] max-w-none origin-left flex items-center justify-center"
+              {/* PORTRAIT 9:16 VIDEO CONTAINER WITH HARDWARE GPU ACCELERATION */}
+              <div className="relative flex items-center justify-center">
+                <div
+                  className="relative w-[340px] xl:w-[380px] aspect-[9/16] overflow-hidden rounded-3xl shadow-[0_30px_100px_rgba(0,0,0,0.95),0_0_80px_rgba(139,92,246,0.25)] bg-black/90 border border-white/[0.12]"
+                  style={{ transform: 'translate3d(0,0,0)', backfaceVisibility: 'hidden' }}
                 >
-                  {/* Animated Image Container */}
-                  <div className="relative w-full aspect-[16/10] overflow-hidden rounded-2xl shadow-[0_30px_100px_rgba(0,0,0,0.95),0_0_70px_rgba(139,92,246,0.15)]">
-                    <AnimatePresence mode="wait">
-                      <motion.img
-                        key={activeService.image}
-                        src={activeService.image}
-                        alt={`${activeService.title} product showcase`}
-                        initial={{ opacity: 0, scale: 1.02, x: 15 }}
-                        animate={{ opacity: 1, scale: 1, x: 0 }}
-                        exit={{ opacity: 0, scale: 0.97, x: -15 }}
-                        transition={{
-                          duration: 0.6,
-                          ease: [0.16, 1, 0.3, 1],
-                        }}
-                        className="w-full h-full object-cover object-left-top xl:object-center select-none pointer-events-none filter drop-shadow-[0_20px_40px_rgba(0,0,0,0.8)]"
-                        loading="eager"
-                      />
-                    </AnimatePresence>
+                  <video
+                    ref={isDesktop ? videoRef : null}
+                    src="/videos/Mahris.mp4"
+                    preload="auto"
+                    autoPlay
+                    loop
+                    playsInline
+                    muted={isMuted}
+                    className="w-full h-full object-cover select-none filter drop-shadow-[0_20px_40px_rgba(0,0,0,0.8)]"
+                    style={{ transform: 'translate3d(0,0,0)' }}
+                  />
 
-                    {/* Subtle frame edge ring */}
-                    <div
-                      className="absolute inset-0 ring-1 ring-inset ring-white/[0.08] rounded-2xl pointer-events-none"
-                      aria-hidden="true"
-                    />
+                  {/* Frame edge ring */}
+                  <div
+                    className="absolute inset-0 ring-1 ring-inset ring-white/[0.12] rounded-3xl pointer-events-none z-10"
+                    aria-hidden="true"
+                  />
+
+                  {/* Sound Toggle Button & Prompt */}
+                  <div className="absolute bottom-4 right-4 z-20 flex items-center gap-3">
+                    {showSoundPrompt && isMuted && (
+                      <button
+                        onClick={toggleSound}
+                        className="px-3.5 py-1.5 rounded-full bg-purple-600/90 hover:bg-purple-500 text-white text-xs font-semibold backdrop-blur-md border border-purple-400/40 shadow-lg animate-pulse transition-all flex items-center gap-2"
+                      >
+                        <Volume2 className="w-3.5 h-3.5" />
+                        <span>Enable Sound</span>
+                      </button>
+                    )}
+                    <button
+                      onClick={toggleSound}
+                      aria-label={isMuted ? "Unmute video audio" : "Mute video audio"}
+                      className="p-3 rounded-full bg-black/60 hover:bg-purple-600/90 text-white border border-white/20 backdrop-blur-md transition-all shadow-xl hover:scale-105 active:scale-95 flex items-center justify-center"
+                    >
+                      {isMuted ? (
+                        <VolumeX className="w-4 h-4 text-zinc-400" />
+                      ) : (
+                        <Volume2 className="w-4 h-4 text-purple-300" />
+                      )}
+                    </button>
                   </div>
-                </motion.div>
-              </motion.div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -400,46 +413,61 @@ export const Services: React.FC = () => {
         {/* 
           -------------------------------------------------------------
           MOBILE & TABLET LAYOUT (< lg)
-          Natural Sequential Stacking:
-          Service Title -> Description -> Large Product Visual -> Next Service
+          Single 9:16 Portrait Video + Services List
           -------------------------------------------------------------
         */}
-        <div className="lg:hidden flex flex-col gap-16 sm:gap-20">
-          {services.map((item) => (
+        <div className="lg:hidden flex flex-col gap-12">
+          {/* Single Mobile Autoplay 9:16 Portrait Video Stage */}
+          <div className="relative w-full max-w-[320px] sm:max-w-[350px] mx-auto aspect-[9/16] rounded-3xl overflow-hidden bg-[#07070B] border border-white/[0.1] shadow-[0_16px_50px_rgba(0,0,0,0.85),0_0_35px_rgba(139,92,246,0.18)]">
+            <video
+              ref={!isDesktop ? videoRef : null}
+              src="/videos/Mahris.mp4"
+              preload="auto"
+              autoPlay
+              loop
+              playsInline
+              muted={isMuted}
+              className="w-full h-full object-cover select-none"
+              style={{ transform: 'translate3d(0,0,0)' }}
+            />
             <div
-              key={`mobile-${item.id}`}
-              className="flex flex-col items-start text-left w-full border-t border-white/[0.06] pt-10 first:border-t-0 first:pt-0"
+              className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-3xl pointer-events-none z-10"
+              aria-hidden="true"
+            />
+            <button
+              onClick={toggleSound}
+              aria-label={isMuted ? "Unmute video audio" : "Mute video audio"}
+              className="absolute bottom-3 right-3 p-2.5 rounded-full bg-black/70 text-white border border-white/20 backdrop-blur-md z-20 flex items-center justify-center"
             >
-              {/* Header: Number & Title */}
-              <div className="flex items-center gap-3 mb-2.5">
-                <span className="font-mono text-xs sm:text-sm font-bold tracking-wider text-[#A78BFA] bg-purple-500/10 px-2.5 py-0.5 rounded border border-purple-500/20">
-                  {item.number}
-                </span>
-                <h3 className="text-xl sm:text-2xl font-bold tracking-[-0.02em] text-white uppercase">
-                  {item.title}
-                </h3>
-              </div>
+              {isMuted ? (
+                <VolumeX className="w-4 h-4 text-zinc-400" />
+              ) : (
+                <Volume2 className="w-4 h-4 text-purple-300" />
+              )}
+            </button>
+          </div>
 
-              {/* Description */}
-              <p className="text-sm sm:text-base leading-relaxed text-zinc-300 mb-6 max-w-xl">
-                {item.description}
-              </p>
-
-              {/* Mobile Large Product Visual */}
-              <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden bg-[#07070B] border border-white/[0.08] shadow-[0_16px_50px_rgba(0,0,0,0.85),0_0_35px_rgba(139,92,246,0.12)]">
-                <img
-                  src={item.image}
-                  alt={`${item.title} product showcase`}
-                  className="w-full h-full object-cover object-center select-none pointer-events-none"
-                  loading="lazy"
-                />
-                <div
-                  className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-xl pointer-events-none"
-                  aria-hidden="true"
-                />
+          {/* Services List */}
+          <div className="flex flex-col gap-10">
+            {services.map((item) => (
+              <div
+                key={`mobile-${item.id}`}
+                className="flex flex-col items-start text-left w-full border-t border-white/[0.06] pt-8 first:border-t-0 first:pt-0"
+              >
+                <div className="flex items-center gap-3 mb-2.5">
+                  <span className="font-mono text-xs sm:text-sm font-bold tracking-wider text-[#A78BFA] bg-purple-500/10 px-2.5 py-0.5 rounded border border-purple-500/20">
+                    {item.number}
+                  </span>
+                  <h3 className="text-xl sm:text-2xl font-bold tracking-[-0.02em] text-white uppercase">
+                    {item.title}
+                  </h3>
+                </div>
+                <p className="text-sm sm:text-base leading-relaxed text-zinc-300 max-w-xl">
+                  {item.description}
+                </p>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>

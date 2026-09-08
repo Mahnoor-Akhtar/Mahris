@@ -86,7 +86,7 @@ export const WhyMaHris: React.FC = () => {
     <section
       id="why-mahris"
       ref={sectionRef}
-      className="relative w-full bg-[#050507] py-28 sm:py-36 lg:py-44 select-none border-t border-white/[0.04] overflow-hidden"
+      className="relative w-full bg-[#050507] py-14 sm:py-18 lg:py-20 select-none border-t border-white/[0.04] overflow-hidden"
       aria-label="Why MaHris"
     >
       {/* Background ambient lighting */}

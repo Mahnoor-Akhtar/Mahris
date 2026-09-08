@@ -448,7 +448,7 @@ export const Hero: React.FC = () => {
           </motion.div>
 
           {/* Main Headline (Masked Line-by-Line Reveal) */}
-          <h1 className="text-[2.25rem] leading-[1.08] sm:text-5xl sm:leading-[1.08] md:text-6xl md:leading-[1.06] lg:text-[4.15rem] lg:leading-[1.05] xl:text-[4.75rem] xl:leading-[1.04] font-bold tracking-[-0.03em] text-white uppercase mb-6 sm:mb-7">
+          <h1 className="text-[2rem] leading-[1.08] sm:text-[2.65rem] sm:leading-[1.08] md:text-[3.25rem] md:leading-[1.06] lg:text-[3.65rem] lg:leading-[1.05] xl:text-[4.15rem] xl:leading-[1.04] font-bold tracking-[-0.03em] text-white uppercase mb-6 sm:mb-7">
             {/* Line 1 */}
             <span className="block overflow-hidden py-0.5">
               <motion.span
