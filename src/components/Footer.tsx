@@ -343,10 +343,10 @@ export const Footer: React.FC = () => {
                   </div>
                   <div>
                     <a
-                      href="mailto:hello@mahris.dev"
+                      href="mailto:mahris.digital@gmail.com"
                       className="text-xs sm:text-[13px] font-medium text-white hover:text-[#A78BFA] transition-colors block"
                     >
-                      hello@mahris.dev
+                      mahris.digital@gmail.com
                     </a>
                     <span className="text-[11px] text-zinc-500">
                       We reply within 24 hours

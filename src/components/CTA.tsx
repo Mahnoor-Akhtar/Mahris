@@ -417,7 +417,7 @@ export const CTA: React.FC = () => {
 
               {/* Email */}
               <a
-                href="mailto:contact@mahris.com"
+                href="mailto:mahris.digital@gmail.com"
                 className="group flex items-center gap-4 p-3.5 rounded-xl bg-white/[0.02] hover:bg-white/[0.05] border border-white/[0.08] hover:border-purple-500/40 transition-all duration-300"
               >
                 <div className="w-10 h-10 rounded-lg bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-[#A78BFA] group-hover:scale-110 transition-transform shrink-0">
@@ -428,7 +428,7 @@ export const CTA: React.FC = () => {
                     Email Address
                   </span>
                   <span className="text-sm font-semibold text-white group-hover:text-[#A78BFA] transition-colors">
-                    contact@mahris.com
+                    mahris.digital@gmail.com
                   </span>
                 </div>
               </a>
