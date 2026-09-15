@@ -195,6 +195,8 @@ export const CTA: React.FC = () => {
     return !Object.values(newErrors).some((e) => e !== '');
   };
 
+  const [waUrl, setWaUrl] = useState<string>('');
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateAll()) return;
@@ -216,7 +218,8 @@ export const CTA: React.FC = () => {
       `Submitted via MaHris Website`;
 
     const encodedMessage = encodeURIComponent(waText);
-    const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+    const generatedWaUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+    setWaUrl(generatedWaUrl);
 
     // Store summary for success card state
     setSubmittedData({
@@ -227,12 +230,19 @@ export const CTA: React.FC = () => {
       details: messageDetails,
     });
 
-    setTimeout(() => {
-      // Open WhatsApp chat in new tab safely
-      window.open(waUrl, '_blank', 'noopener,noreferrer');
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-    }, 600);
+    // Synchronously open WhatsApp chat directly within the click event stack frame to bypass popup blockers
+    try {
+      const win = window.open(generatedWaUrl, '_blank', 'noopener,noreferrer');
+      if (!win || win.closed || typeof win.closed === 'undefined') {
+        // Fallback if browser popup blocker blocked _blank window
+        window.location.href = generatedWaUrl;
+      }
+    } catch {
+      window.location.href = generatedWaUrl;
+    }
+
+    setIsSubmitting(false);
+    setIsSubmitted(true);
   };
 
   const handleResetForm = () => {
@@ -808,15 +818,29 @@ export const CTA: React.FC = () => {
                       </div>
                     )}
 
-                    {/* Action Button to Submit Another */}
-                    <button
-                      type="button"
-                      onClick={handleResetForm}
-                      className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-xs font-semibold tracking-wider uppercase text-zinc-300 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/15 transition-all duration-300"
-                    >
-                      <RotateCcw className="w-3.5 h-3.5 text-purple-400" />
-                      <span>Send Another Request</span>
-                    </button>
+                    {/* Action Buttons: Direct WhatsApp Link & Submit Another */}
+                    <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+                      {waUrl && (
+                        <a
+                          href={waUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-xs font-semibold tracking-wider uppercase text-white bg-emerald-600 hover:bg-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-all duration-300 hover:scale-105"
+                        >
+                          <MessageCircle className="w-4 h-4" />
+                          <span>Open WhatsApp Chat</span>
+                        </a>
+                      )}
+
+                      <button
+                        type="button"
+                        onClick={handleResetForm}
+                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-xs font-semibold tracking-wider uppercase text-zinc-300 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/15 transition-all duration-300"
+                      >
+                        <RotateCcw className="w-3.5 h-3.5 text-purple-400" />
+                        <span>Send Another Request</span>
+                      </button>
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>
